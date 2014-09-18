@@ -1,0 +1,32 @@
+- @article = current_article
+
+= wrap_layout :layout do
+
+  %article{class: "article article--single", id: @article.id}
+    %header.article-header
+      %h1.article__title
+        = @article.title
+      %hr/
+
+      - if @article.metadata[:page]['subtitle']
+        %span.article__subtitle
+          = @article.metadata[:page]['subtitle']
+        %hr/
+
+    = @article.body
+
+    %footer.article-meta 
+      %span.article-meta__key.article__author
+        = @article.author.name
+
+      - if @article.author.url?
+        %span.article-meta__key.article__url
+          = link_to clean_url(@article.author.url), @article.author.url
+
+      %time.article-meta__key.article__published{datetime: @article.date.strftime("%FT%R")}
+        = @article.date.strftime("%B %d, %Y")
+
+      %span.article-meta__key.article__version
+        = @article.metadata[:page]['version']
+
+      = # partial :social

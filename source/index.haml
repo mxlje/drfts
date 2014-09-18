@@ -1,0 +1,25 @@
+---
+title: Popular articles on drfts
+---
+
+- blog("articles").articles.each_with_index do |article, i|
+  
+  %article{class: "article", id: article.id}
+    %header.article-header
+      %h1.article__title
+        = link_to article.title, article
+      %hr/
+
+      - if article.metadata[:page]['subtitle']
+        %span.article__subtitle
+          = article.metadata[:page]['subtitle']
+        %hr/
+
+    = article.body
+
+    %footer.article-meta 
+      %span.article-meta__key.article__author
+        = article.author.name
+
+      %time.article-meta__key.article__published{datetime: article.date.strftime("%FT%R")}
+        = article.date.strftime("%B %d, %Y")
