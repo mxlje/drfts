@@ -17,6 +17,7 @@ gem 'redcarpet', github: 'vmg/redcarpet', branch: 'master'
 # helpers
 gem "hashie", "3.3.1"
 
+gem 'rake'
 gem "rack-test", "0.6.2"
 gem "minitest", "5.4.1"
 gem 'anemone', '0.7.2'
