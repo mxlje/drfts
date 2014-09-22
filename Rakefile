@@ -23,6 +23,24 @@ task :deploy do
   puts status ? "OK" : "FAILED"
 end
  
-desc "Build and deploy website"
-task :full => [:build, :deploy] do
+desc "Build, test and deploy website"
+task :full => [:build, :test, :deploy] do
+end
+
+
+
+# Test task
+$TEST_PATH = './spec'
+$LOAD_PATH << $TEST_PATH
+
+require 'rake/testtask'
+
+# task :default => [:test]
+
+desc "Run all tests"
+Rake::TestTask.new :test do |t|
+  t.libs.pop # remove "lib" path from default load path (a rake/testtask thing)
+  t.test_files = FileList["#{$TEST_PATH}/**/*_spec.rb"]
+  t.verbose = false
+  t.warning = false
 end
