@@ -142,8 +142,8 @@ DEPENDENCIES
   hashie (= 3.3.1)
   middleman (= 3.3.6)
   middleman-blog (= 3.5.3)
-  minitest
+  minitest (= 5.4.1)
   nokogiri (= 1.6.1)
-  rack-test
+  rack-test (= 0.6.2)
   redcarpet!
   sass (= 3.4.4)
