@@ -50,6 +50,8 @@ end
 pid = fork do
   # this code is run in the child process
   # you can do anything here, like changing current directory or reopening STDOUT
+  STDOUT.reopen "/dev/null"
+  STDERR.reopen "/dev/null"
   puts "Serving #{BUILD_DIR} on :#{TEST_PORT}"
   exec "ruby -run -e httpd #{BUILD_DIR} -p 5000"
 end
