@@ -78,9 +78,9 @@ end
 
 
 
-# kill the dev server
+# kill the dev server process
 Minitest.after_run do
-  puts "Tests done, shutting down server"
+  puts "Tests done, shutting down server."
 
   Process.kill "KILL", pid
   Process.wait pid
