@@ -4,13 +4,12 @@ BUILD_DIR = "./build"
 TEST_PORT = 5000
 TEST_URI  = "http://0.0.0.0:#{TEST_PORT}"
 
+require "uri"
 require 'minitest/autorun'  # main minitest lib
 require 'minitest/pride'    # nice color output
 require 'rack/test'         # actually browse around in the app
-require 'nokogiri'          # to analyze responses
+require 'nokogiri'          # to analyze html responses
 require 'anemone'           # to crawl the actual page
-
-PAGES = []
 
 # This creates a rack app that serves the BUILD_DIR
 # so it can be tested through Rack::Test
@@ -32,8 +31,6 @@ def app
   App
 end
 
-
-
 # helper to check if dev server is ready
 def server_ready?
   begin
@@ -46,14 +43,11 @@ def server_ready?
   end
 end
 
-# serve the build
+# serve the build on localhost
 pid = fork do
-  # this code is run in the child process
-  # you can do anything here, like changing current directory or reopening STDOUT
   STDOUT.reopen "/dev/null"
   STDERR.reopen "/dev/null"
-  puts "Serving #{BUILD_DIR} on :#{TEST_PORT}"
-  exec "ruby -run -e httpd #{BUILD_DIR} -p 5000"
+  exec "ruby -run -e httpd #{BUILD_DIR} -p #{TEST_PORT}"
 end
 
 # wait until the server is ready
@@ -62,7 +56,9 @@ until server_ready? do
 end
 
 # crawl the page with anemone and save the responses
-# so we can query them in a test
+# so we can query and analyze them in tests
+PAGES = []
+
 anemone_options = {
   skip_query_strings: false,
   discard_page_bodies: false,
@@ -76,9 +72,7 @@ Anemone.crawl(TEST_URI, anemone_options) do |anemone|
   anemone.on_every_page { |page| PAGES << page }
 end
 
-
-
-# kill the dev server process
+# kill the dev server process when finished
 Minitest.after_run do
   puts "Tests done, shutting down server."
 
