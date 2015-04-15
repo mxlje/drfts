@@ -16,10 +16,10 @@ set :markdown,
 set :haml, { ugly: true }
 
 set :page_config, {
-  url: "https://drfts.com"
+  url: "http://drfts.com"
 }
 
-set :base_uri, "https://drfts.com"
+set :base_uri, "http://drfts.com"
 set :cdn_uri,  "https://drgwi2ssaadfq.cloudfront.net/podcast/"
 
 activate :blog do |blog|
